@@ -1,0 +1,12 @@
+runtime: python39  # Usamos Python 3.9
+
+entrypoint: gunicorn -b :$PORT app:app
+
+env_variables:
+  FLASK_ENV: "production"  # Si quieres poner tu aplicación en producción
+
+handlers:
+  - url: /static
+    static_dir: static  # Si tienes archivos estáticos
+  - url: /.*
+    script: auto
