@@ -36,11 +36,6 @@ def renew_token_periodically():
         get_token()  # Llama a la función para renovar el token
         time.sleep(43200)  # Espera 12 horas (43200 segundos)
 
-# Inicia el hilo para renovar el token
-@app.before_first_request
-def start_token_renewal_thread():
-    threading.Thread(target=renew_token_periodically, daemon=True).start()
-
 @app.route('/')
 def index():
     return "¡Hola desde GCP!"
@@ -53,4 +48,6 @@ def get_token_route():
         return "Token aún no disponible"
 
 if __name__ == '__main__':
+    # Inicia el hilo para renovar el token
+    threading.Thread(target=renew_token_periodically, daemon=True).start()
     app.run()
