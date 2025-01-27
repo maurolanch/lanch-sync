@@ -208,6 +208,9 @@ def obtener_inventario(token):
 #Decodificar, formatear e imprimir los datos del inventario
 
 
+import json
+from datetime import datetime
+
 def decode_and_format(data):
     try:
         # Acceder a la información del inventario
@@ -229,9 +232,12 @@ def decode_and_format(data):
                 pro_ubicacion = producto.get("pro_ubicacion", "").strip()
                 pro_fech_registro = producto.get("pro_fech_registro", "").strip()
 
+                # Escapar comillas en 'pro_desc' para evitar errores
+                pro_desc_escaped = pro_desc.replace('"', '\\"')
+
                 # Decodificar pro_desc si tiene caracteres especiales (unicode)
                 try:
-                    pro_desc = json.loads(f'"{pro_desc}"')  # Decodificar Unicode
+                    pro_desc = json.loads(f'"{pro_desc_escaped}"')  # Decodificar Unicode
                 except json.JSONDecodeError:
                     print(f"Error al decodificar 'pro_desc': {pro_desc}")
                     pro_desc = pro_desc  # Mantener el valor original si no se puede decodificar
@@ -273,46 +279,35 @@ def renew_token_periodically():
         get_token(project_id, secret_id)  # Llama a la función para renovar el token
         time.sleep(43200)  # Espera 12 horas (43200 segundos)
 
-@app.route('/')
-def index():
-    return "¡Hola desde GCP!"
-
 app = Flask(__name__)
 
 # Aquí va tu función decode_and_format que ya definimos
 
 @app.route("/decode_inventario", methods=["GET"])
 def decode_inventario():
-    # Obtén el token usando la función obtener_token()
     token = get_token(project_id, secret_id)
 
     if not token:
         return jsonify({"error": "Token no proporcionado"}), 400
-    
-    # Supongamos que 'data' es lo que obtienes al hacer la consulta a la API
-    # Aquí deberías obtener los datos del inventario con el token
-    data = obtener_inventario(token)  # Aquí llamas a obtener_inventario con el token
+
+    data = obtener_inventario(token)
 
     if data:
-        # Llamamos a la función decode_and_format con los datos recibidos
         productos_formateados = decode_and_format(data)
-
-        # Construir la respuesta como texto con los productos formateados
-        productos_texto = ""
+        productos_html = ""
         for producto in productos_formateados:
-            productos_texto += f"Código: {producto['pro_cod']}\n"
-            productos_texto += f"SKU: {producto['pro_sku']}\n"
-            productos_texto += f"Descripción: {producto['pro_desc']}\n"
-            productos_texto += f"Ubicación: {producto['pro_ubicacion']}\n"
-            productos_texto += f"Fecha de Registro: {datetime.fromtimestamp(producto['pro_fech_registro']) if producto['pro_fech_registro'] else 'N/A'}\n"
-            productos_texto += f"Total Stock: {producto['total_stock']}\n"
-            productos_texto += "-" * 30 + "\n"
+            productos_html += f"<p>"
+            productos_html += f"<b>Código:</b> {producto['pro_cod']}<br>"
+            productos_html += f"<b>SKU:</b> {producto['pro_sku']}<br>"
+            productos_html += f"<b>Descripción:</b> {producto['pro_desc']}<br>"
+            productos_html += f"<b>Ubicación:</b> {producto['pro_ubicacion']}<br>"
+            productos_html += f"<b>Fecha de Registro:</b> {datetime.fromtimestamp(producto['pro_fech_registro']) if producto['pro_fech_registro'] else 'N/A'}<br>"
+            productos_html += f"<b>Total Stock:</b> {producto['total_stock']}<br>"
+            productos_html += f"</p><hr>"
 
-        # Devolvemos los productos formateados en el cuerpo de la respuesta
-        return productos_texto, 200
+        return f"<html><body>{productos_html}</body></html>", 200
     else:
         return jsonify({"error": "No se pudo obtener el inventario"}), 500
-
 
 # Iniciar el servidor Flask
 if __name__ == '__main__':
