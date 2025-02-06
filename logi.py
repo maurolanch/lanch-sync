@@ -1,14 +1,27 @@
-from flask import Flask, jsonify
+# Importaciones estándar
 import json
-import requests
+import os
 import threading
 import time
-from google.cloud import secretmanager
-import os
+import logging  
 from datetime import datetime
 
-# Instancia de Flask
+# Importaciones de terceros
+from flask import Flask, jsonify
+import requests
+from google.cloud import secretmanager
+from barcode import EAN13
+from barcode.errors import IllegalCharacterError
+
+
+# Configuración de logging
+logging.basicConfig(level=logging.INFO)
+
+# Instanciar la aplicación Flask
 app = Flask(__name__)
+
+# Variable para controlar si el hilo ya ha sido iniciado
+token_thread_started = False
 
 # Variable global para el token
 current_token = None
@@ -45,7 +58,6 @@ def get_token(project_id, secret_id):
     global current_token  # Declarar que estamos utilizando la variable global
     # Obtener el secreto desde Google Secret Manager
     secret_key = get_secret(project_id, secret_id)
-
     secret_key = secret_key.strip()
 
     if not secret_key:
@@ -57,7 +69,7 @@ def get_token(project_id, secret_id):
     query = {"query": '{app_secret_key(secret_client:"' + secret_key + '"){suc_data{token}}}'}
    
     url = "https://grupologi.com.co/ApiLogi/principal_graph.php"
-    body = json.dumps(query)
+    body = query
     #body = query
     headers = {
     'Content-Type': 'application/json'
@@ -65,7 +77,7 @@ def get_token(project_id, secret_id):
 
     # Realizar la solicitud HTTP
     try:
-        response = requests.post(url, data=body, headers=headers)
+        response = requests.post(url, json=body, headers=headers)
         response.raise_for_status()
         if response.status_code == 200:
             data = response.json()
@@ -203,58 +215,71 @@ def obtener_inventario(token):
         print(f"Error al realizar la solicitud: {e}")
         return None
 
+# Validar un código de barras EAN-13 o UPC
+def validar_codigo_barras(codigo):
+    """
+    Valida si un código de barras es un EAN-13 válido.
+    """
+    try:
+        # Validar longitud del código y caracteres válidos
+        if len(codigo) == 13:
+            EAN13(codigo)  # Esto asegura que sea un EAN-13 válido
+            return True
+        elif len(codigo) == 12:
+            # UPC se puede extender a EAN-13 con un prefijo "0"
+            EAN13("0" + codigo)
+            return True
+        else:
+            return False
+    except IllegalCharacterError:
+        return False  # Contiene caracteres inválidos
+    except ValueError:
+        return False  # Fallo en la validación del checksum
 
-
-#Decodificar, formatear e imprimir los datos del inventario
-
-
-import json
-from datetime import datetime
 
 def decode_and_format(data):
     try:
-        # Acceder a la información del inventario
         stock_data = data.get("data", {}).get("stock", [])
-
-        # Lista para almacenar los productos formateados
         productos_formateados = []
 
-        # Procesar cada item de stock
         for stock_item in stock_data:
             productos = stock_item.get("producto", [])
             total_stock = stock_item.get("total_stock", [])
 
             for producto in productos:
-                # Extraer los valores del producto
                 pro_cod = producto.get("pro_cod", "").strip()
                 pro_sku = producto.get("pro_sku", "").strip()
                 pro_desc = producto.get("pro_desc", "").strip()
                 pro_ubicacion = producto.get("pro_ubicacion", "").strip()
                 pro_fech_registro = producto.get("pro_fech_registro", "").strip()
 
-                # Escapar comillas en 'pro_desc' para evitar errores
-                pro_desc_escaped = pro_desc.replace('"', '\\"')
-
-                # Decodificar pro_desc si tiene caracteres especiales (unicode)
+                # Validar el código de barras con la conversión a entero
                 try:
-                    pro_desc = json.loads(f'"{pro_desc_escaped}"')  # Decodificar Unicode
-                except json.JSONDecodeError:
-                    print(f"Error al decodificar 'pro_desc': {pro_desc}")
-                    pro_desc = pro_desc  # Mantener el valor original si no se puede decodificar
+                    # Intentar convertir pro_cod a un entero
+                    pro_cod_int = int(pro_cod)
+                    codigo_valido = validar_codigo_barras(pro_cod)  # Validar si es un EAN-13 válido
+                except ValueError:
+                    # Si no se puede convertir a entero, marcar como inválido
+                    pro_cod_int = None
+                    codigo_valido = False
 
-                # Convertir fecha a timestamp
+                # Asegurar que pro_fech_registro sea una fecha válida
                 try:
                     pro_fech_registro_timestamp = datetime.strptime(pro_fech_registro, "%Y-%m-%d %H:%M:%S").timestamp()
                 except ValueError:
                     print(f"Error al convertir 'pro_fech_registro' a timestamp: {pro_fech_registro}")
                     pro_fech_registro_timestamp = None  # Si no puede convertir la fecha, asignar None
 
-                # Obtener total_stock de manera segura
-                total_stock_value = total_stock[0].get("total_stock", 0) if total_stock else 0
+                # Obtener el total_stock de manera segura y convertirlo a entero
+                total_stock_value = 0
+                if total_stock and isinstance(total_stock[0], dict) and "total_stock" in total_stock[0]:
+                    total_stock_value = int(total_stock[0].get("total_stock", 0))
 
                 # Crear un diccionario con los datos procesados
                 producto_formateado = {
                     "pro_cod": pro_cod,
+                    "pro_cod_int": pro_cod_int,  # El valor entero del código de barras
+                    "pro_cod_valido": codigo_valido,  # True o False según sea válido
                     "pro_sku": pro_sku,
                     "pro_desc": pro_desc,
                     "pro_ubicacion": pro_ubicacion,
@@ -263,55 +288,26 @@ def decode_and_format(data):
                 }
                 productos_formateados.append(producto_formateado)
 
-        # Devolver los productos formateados
-        print("Productos formateados correctamente:")
-        print(productos_formateados)
         return productos_formateados
 
     except Exception as e:
         print(f"Error al procesar el inventario: {e}")
         return None
 
-
-# Función para renovar el token cada 12 horas
 def renew_token_periodically():
     while True:
-        get_token(project_id, secret_id)  # Llama a la función para renovar el token
+        try:
+            logging.info("Renovando token...")
+            get_token(project_id, secret_id)  # Llama a la función para renovar el token
+            logging.info("Token renovado exitosamente.")
+        except Exception as e:
+            logging.error(f"Error al renovar el token: {e}")
         time.sleep(43200)  # Espera 12 horas (43200 segundos)
 
-app = Flask(__name__)
-
-# Aquí va tu función decode_and_format que ya definimos
-
-@app.route("/decode_inventario", methods=["GET"])
-def decode_inventario():
-    token = get_token(project_id, secret_id)
-
-    if not token:
-        return jsonify({"error": "Token no proporcionado"}), 400
-
-    data = obtener_inventario(token)
-
-    if data:
-        productos_formateados = decode_and_format(data)
-        productos_html = ""
-        for producto in productos_formateados:
-            productos_html += f"<p>"
-            productos_html += f"<b>Código:</b> {producto['pro_cod']}<br>"
-            productos_html += f"<b>SKU:</b> {producto['pro_sku']}<br>"
-            productos_html += f"<b>Descripción:</b> {producto['pro_desc']}<br>"
-            productos_html += f"<b>Ubicación:</b> {producto['pro_ubicacion']}<br>"
-            productos_html += f"<b>Fecha de Registro:</b> {datetime.fromtimestamp(producto['pro_fech_registro']) if producto['pro_fech_registro'] else 'N/A'}<br>"
-            productos_html += f"<b>Total Stock:</b> {producto['total_stock']}<br>"
-            productos_html += f"</p><hr>"
-
-        return f"<html><body>{productos_html}</body></html>", 200
-    else:
-        return jsonify({"error": "No se pudo obtener el inventario"}), 500
-
-# Iniciar el servidor Flask
 if __name__ == '__main__':
-    # Inicia el hilo para renovar el token
-    threading.Thread(target=renew_token_periodically, daemon=True).start()
-    app.run()
+    # Inicia el hilo para renovar el token solo si aún no ha sido iniciado
+    if not token_thread_started:
+        threading.Thread(target=renew_token_periodically, daemon=True).start()
+        token_thread_started = True
 
+    app.run(debug=False)  # En producción, podrías poner debug=False
