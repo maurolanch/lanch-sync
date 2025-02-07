@@ -40,7 +40,19 @@ def callback():
         return f'Autenticación exitosa. User ID: {USER_ID}, Site ID: {SITE_ID}. Access Token: {ACCESS_TOKEN}', 200
     else:
         return 'Error al obtener el token.', 400
+    
+@app.route('/webhooks', methods=['POST'])
+def webhooks():
+    """Recibe notificaciones de MercadoLibre, las imprime y responde con OK."""
+    try:
+        data = request.json  # Obtiene el JSON enviado por MercadoLibre
+        print(f"Notificación recibida: {data}")  # Imprime en la consola
 
+        # Responder con HTTP 200 para confirmar la recepción
+        return jsonify({"status": "received"}), 200
+    except Exception as e:
+        print(f"Error procesando la notificación: {str(e)}")
+        return jsonify({"error": "Bad request"}), 400
 
 def get_access_token(code):
     """Intercambia el código de autorización por un token de acceso."""
@@ -140,10 +152,6 @@ def get_full_listings(access_token, item_ids):
     print(f"Resultado final de get_full_listings: {full_listings}")  # Ver el diccionario final
     return full_listings
 
-import requests
-
-import requests
-
 def update_flex(access_token, site_id, item_ids, stock):
     """
     Actualiza el estado de 'flex' para cada producto dependiendo del stock.
@@ -191,7 +199,6 @@ def update_flex(access_token, site_id, item_ids, stock):
                     print(f"Error al desactivar flex para {item_id}: {response.status_code} - {response.text}")
             else:
                 print(f"Item {item_id} no requiere acción porque el stock es negativo.")
-
 
 
 def update_stock(access_token, item_ids, sku, stock):
