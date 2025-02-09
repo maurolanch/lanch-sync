@@ -6,7 +6,7 @@ app = Flask(__name__)
 # Configuración de MercadoLibre
 CLIENT_ID = '8885330221347884'
 CLIENT_SECRET = 'CN04G3UTi1s6y3RErVCkTbFRA3dLmVzs'
-REDIRECT_URI = 'https://5c42-200-118-62-179.ngrok-free.app/callback'
+REDIRECT_URI = 'https://ec2d-2800-484-515b-b000-e96a-dabe-2f13-cb12.ngrok-free.app/callback'
 
 AUTHORIZATION_URL = 'https://auth.mercadolibre.com.co/authorization'
 TOKEN_URL = 'https://api.mercadolibre.com/oauth/token'
@@ -40,13 +40,13 @@ def callback():
         return f'Autenticación exitosa. User ID: {USER_ID}, Site ID: {SITE_ID}. Access Token: {ACCESS_TOKEN}', 200
     else:
         return 'Error al obtener el token.', 400
-    
+  
 @app.route('/webhooks', methods=['POST'])
 def webhooks():
     """Recibe notificaciones de MercadoLibre, las imprime y responde con OK."""
     try:
         data = request.json  # Obtiene el JSON enviado por MercadoLibre
-        print(f"Notificación recibida: {data}")  # Imprime en la consola
+        #print(f"Notificación recibida: {data}")  # Imprime en la consola
 
         # Responder con HTTP 200 para confirmar la recepción
         return jsonify({"status": "received"}), 200
@@ -203,60 +203,81 @@ def update_flex(access_token, site_id, item_ids, stock):
 
 def update_stock(access_token, item_ids, sku, stock):
     """
-    Actualiza el stock para las variaciones de los items de la lista 'no_full' que tengan el SKU indicado.
-    Se envían todas las variaciones para evitar que se borren las que no se actualicen.
-    
+    Actualiza el stock de una variación con un SKU específico solo si el valor cambia.
+    También cambia el estado del ítem a "active" si estaba en "paused" y el stock es mayor a 0.
+
     :param access_token: Token de acceso de MercadoLibre.
     :param item_ids: Diccionario con listas 'full' y 'no_full' de item_ids.
-    :param sku: El SKU a buscar (por ejemplo, "FX797E73").
-    :param stock: El nuevo stock a asignar para la variación que tenga el SKU.
+    :param sku: El SKU a actualizar.
+    :param stock: El stock a asignar.
     """
     base_url = "https://api.mercadolibre.com/items"
     no_full_items = item_ids.get('no_full', [])
-    
+
     headers = {
         "Authorization": f"Bearer {access_token}",
         "Content-Type": "application/json"
     }
-    
+
     for item_id in no_full_items:
-        # Consultamos el item para obtener todas sus variaciones
         item_url = f"{base_url}/{item_id}?include_attributes=all"
         response = requests.get(item_url, headers=headers)
-        
+
         if response.status_code == 200:
             item_data = response.json()
             variations = item_data.get("variations", [])
+            current_status = item_data.get("status", "")
+
             variations_to_update = []
-            
+            updated_stock = False  # Flag para saber si se debe actualizar el stock
+            total_available_stock = 0  # Variable para verificar stock total
+
             for variation in variations:
-                # Inicialmente, se conserva el available_quantity actual.
-                updated_quantity = variation.get("available_quantity", 0)
-                
-                # Iteramos sobre la lista "attributes" de la variación para buscar el SELLER_SKU
+                current_quantity = variation.get("available_quantity", 0)
+                total_available_stock += current_quantity  # Sumar stock total actual
+
                 for attribute in variation.get("attributes", []):
-                    if attribute.get("id") == "SELLER_SKU":
-                        # Si coincide el SKU, actualizamos la cantidad con el valor deseado.
-                        if attribute.get("value_name") == sku:
-                            updated_quantity = stock
-                        break  # Salimos del ciclo una vez encontrado el atributo SELLER_SKU
+                    if attribute.get("id") == "SELLER_SKU" and attribute.get("value_name") == sku:
+                        # Solo actualizamos si el stock es diferente al actual
+                        if current_quantity != stock:
+                            variations_to_update.append({
+                                "id": variation["id"],
+                                "available_quantity": stock
+                            })
+                            updated_stock = True
+                        break  # No es necesario seguir revisando atributos de esta variación
+
+            # Verificamos si debemos cambiar el estado del item a "active"
+            needs_status_update = current_status == "paused" and stock > 0
+
+            # Si hay cambios en stock o en el estado, enviamos la actualización
+            if updated_stock or needs_status_update:
+                update_payload = {}
                 
-                variations_to_update.append({
-                    "id": variation["id"],
-                    "available_quantity": updated_quantity
-                })
-            
-            # Realizamos la solicitud PUT para actualizar el item, incluyendo todas las variaciones
-            update_url = f"{base_url}/{item_id}"
-            update_payload = {"variations": variations_to_update}
-            update_response = requests.put(update_url, json=update_payload, headers=headers)
-            
-            if update_response.status_code == 200:
-                print(f"Stock actualizado para el item {item_id}.")
+                if updated_stock:
+                    update_payload["variations"] = variations_to_update
+
+                if needs_status_update:
+                    update_payload["status"] = "active"
+
+                update_url = f"{base_url}/{item_id}"
+                update_response = requests.put(update_url, json=update_payload, headers=headers)
+
+                if update_response.status_code == 200:
+                    if updated_stock:
+                        print(f"Stock actualizado para el item {item_id}.")
+                    if needs_status_update:
+                        print(f"Estado del item {item_id} cambiado a 'active'.")
+                else:
+                    print(f"Error al actualizar item {item_id}: {update_response.status_code} - {update_response.text}")
             else:
-                print(f"Error al actualizar stock para el item {item_id}: {update_response.status_code} - {update_response.text}")
+                print(f"No se realizaron cambios en el item {item_id}, ya que el stock y el estado son los mismos.")
+
         else:
             print(f"Error al obtener datos del item {item_id}: {response.status_code} - {response.text}")
+
+
+
 
 
 @app.route('/update_stock', methods=['POST'])
@@ -295,4 +316,4 @@ def update_stock_route():
 
 
 if __name__ == '__main__':
-    app.run(port=5000)
+    app.run(debug=True, port=5000)
