@@ -1,0 +1,348 @@
+{
+    "title": "Estuche Spigen Zero One Samsung Galaxy S24 Ultra - Negro",
+    "category_id": "MCO169817",
+    "price": 249900,
+    "currency_id": "COP",
+    "available_quantity": 3,
+    "buying_mode": "buy_it_now",
+    "condition": "new",
+    "listing_type_id": "gold_special",
+    "sale_terms": [
+        {
+            "id": "WARRANTY_TYPE",
+            "value_name": "Garantía del vendedor"
+        },
+        {
+            "id": "WARRANTY_TIME",
+            "value_name": "3 meses"
+        }
+    ],
+    "pictures": [
+        {
+            "source": "https://cdn.shopify.com/s/files/1/0135/2659/7696/files/title_s24ultra_ultrahybrid_zeroone_white_05.webp?v=1714405102"
+        },
+        {
+            "source": "https://cdn.shopify.com/s/files/1/0135/2659/7696/files/detail_sp682_ultrahybrid_zeroone_white_08.webp?v=1714405100"
+        },
+        {
+            "source": "https://cdn.shopify.com/s/files/1/0135/2659/7696/files/detail_sp682_ultrahybrid_zeroone_white_01.webp?v=1714405101"
+        },
+        {
+            "source": "https://cdn.shopify.com/s/files/1/0135/2659/7696/files/detail_sp682_ultrahybrid_zeroone_white_02.webp?v=1714405099"
+        },
+        {
+            "source": "https://cdn.shopify.com/s/files/1/0135/2659/7696/files/detail_sp682_ultrahybrid_zeroone_white_06.webp?v=1714405098"
+        },
+        {
+            "source": "https://cdn.shopify.com/s/files/1/0135/2659/7696/files/detail_sp682_ultrahybrid_zeroone_white_07.webp?v=1714405099"
+        },
+        {
+            "source": "https://cdn.shopify.com/s/files/1/0135/2659/7696/files/detail_sp682_ultrahybrid_zeroone_white_09.webp?v=1714405098"
+        },
+        {
+            "source": "https://cdn.shopify.com/s/files/1/0135/2659/7696/files/detail_sp682_ultrahybrid_zeroone_white_010.webp?v=1714405102"
+        },
+        {
+            "source": "https://cdn.shopify.com/s/files/1/0135/2659/7696/files/detail_sp682_ultrahybrid_zeroone_white_05.webp?v=1714405095"
+        },
+        {
+            "source": "https://cdn.shopify.com/s/files/1/0135/2659/7696/files/detail_sp682_ultrahybrid_zeroone_white_04.webp?v=1714405095"
+        }
+    ],
+    "shipping": {
+        "mode": "me2",
+        "tags": [
+            "self_service_in",
+            "mandatory_free_shipping"
+        ]
+    },
+    "attributes": [
+        {
+            "id": "BRAND",
+            "value_name": "Spigen"
+        },
+        {
+            "id": "CELLPHONE_COVER_TYPE",
+            "value_name": "Rugerizada"
+        },
+        {
+            "id": "COMPATIBLE_CELLPHONE",
+            "value_name": "Samsung S24 24 Ultra"
+        },
+        {
+            "id": "COMPATIBLE_CELLPHONE_BRANDS",
+            "value_name": "Samsung"
+        },
+        {
+            "id": "COMPATIBLE_CELLPHONE_LINES",
+            "value_name": "Galaxy S"
+        },
+        {
+            "id": "COMPATIBLE_CELLPHONE_MODELS",
+            "value_name": "S24 Ultra"
+        },
+        {
+            "id": "EXTERIOR_MATERIALS",
+            "value_name": "Policarbonato,TPU"
+        },
+        {
+            "id": "INTERIOR_MATERIALS",
+            "value_name": "TPU"
+        },
+        {
+            "id": "IS_ANTI_SLIP",
+            "value_name": "No"
+        },
+        {
+            "id": "IS_WATERPROOF",
+            "value_name": "No"
+        },
+        {
+            "id": "ITEM_CONDITION",
+            "value_name": "Nuevo"
+        },
+        {
+            "id": "LINE",
+            "value_name": "MAGFIT"
+        },
+        {
+            "id": "MANUFACTURER",
+            "value_name": "Spigen"
+        },
+        {
+            "id": "MODEL",
+            "value_name": "Ultra Hybrid Zero One"
+        },
+        {
+            "id": "PRODUCT_FEATURES",
+            "value_name": "Sin vencimiento"
+        },
+        {
+            "id": "SALE_FORMAT",
+            "value_name": "Unidad"
+        },
+        {
+            "id": "SHIPMENT_PACKING",
+            "value_name": "Bolsa"
+        },
+        {
+            "id": "UNITS_PER_PACK",
+            "value_name": "1"
+        },
+        {
+            "id": "WITH_CAMERA_PROTECTOR",
+            "value_name": "Sí"
+        },
+        {
+            "id": "WITH_CARDS_HOLDER",
+            "value_name": "No"
+        },
+        {
+            "id": "WITH_INTEGRAL_GLASS_LID",
+            "value_name": "No"
+        },
+        {
+            "id": "WITH_LID",
+            "value_name": "No"
+        },
+        {
+            "id": "WITH_LIGHT",
+            "value_name": "No"
+        },
+        {
+            "id": "WITH_MAGNETIC_CLOSE",
+            "value_name": "No"
+        },
+        {
+            "id": "WITH_RING",
+            "value_name": "No"
+        },
+        {
+            "id": "WITH_STRAP",
+            "value_name": "No"
+        },
+        {
+            "id": "WITH_WIRELESS_CHARGING",
+            "value_name": "No"
+        }
+    ],
+    "variations": [
+        {
+            "price": 249900,
+            "attribute_combinations": [
+                {
+                    "id": "COLOR",
+                    "name": "Color",
+                    "value_id": "52049",
+                    "value_name": "Negro",
+                    "values": [
+                        {
+                            "id": "52049",
+                            "name": "Negro",
+                            "struct": null
+                        }
+                    ],
+                    "value_type": "string"
+                },
+                {
+                    "id": "PATTERN_NAME",
+                    "name": "Nombre del diseño",
+                    "value_id": "32097123",
+                    "value_name": "S24 Ultra",
+                    "values": [
+                        {
+                            "id": "32097123",
+                            "name": "S24 Ultra",
+                            "struct": null
+                        }
+                    ],
+                    "value_type": "string"
+                }
+            ],
+            "available_quantity": 3,
+            "picture_ids": [
+                "https://cdn.shopify.com/s/files/1/0135/2659/7696/files/title_s24ultra_ultrahybrid_zeroone_white_05.webp?v=1714405102",
+                "https://cdn.shopify.com/s/files/1/0135/2659/7696/files/detail_sp682_ultrahybrid_zeroone_white_08.webp?v=1714405100",
+                "https://cdn.shopify.com/s/files/1/0135/2659/7696/files/detail_sp682_ultrahybrid_zeroone_white_01.webp?v=1714405101",
+                "https://cdn.shopify.com/s/files/1/0135/2659/7696/files/detail_sp682_ultrahybrid_zeroone_white_02.webp?v=1714405099",
+                "https://cdn.shopify.com/s/files/1/0135/2659/7696/files/detail_sp682_ultrahybrid_zeroone_white_06.webp?v=1714405098",
+                "https://cdn.shopify.com/s/files/1/0135/2659/7696/files/detail_sp682_ultrahybrid_zeroone_white_07.webp?v=1714405099",
+                "https://cdn.shopify.com/s/files/1/0135/2659/7696/files/detail_sp682_ultrahybrid_zeroone_white_09.webp?v=1714405098",
+                "https://cdn.shopify.com/s/files/1/0135/2659/7696/files/detail_sp682_ultrahybrid_zeroone_white_010.webp?v=1714405102",
+                "https://cdn.shopify.com/s/files/1/0135/2659/7696/files/detail_sp682_ultrahybrid_zeroone_white_05.webp?v=1714405095",
+                "https://cdn.shopify.com/s/files/1/0135/2659/7696/files/detail_sp682_ultrahybrid_zeroone_white_04.webp?v=1714405095"
+            ],
+            "attributes": [
+                {
+                    "id": "PACKAGE_HEIGHT",
+                    "name": "Altura del paquete",
+                    "value_id": null,
+                    "value_name": "1.8 cm",
+                    "value_struct": {
+                        "number": 1.8,
+                        "unit": "cm"
+                    },
+                    "values": [
+                        {
+                            "id": null,
+                            "name": "1.8 cm",
+                            "struct": {
+                                "number": 1.8,
+                                "unit": "cm"
+                            }
+                        }
+                    ],
+                    "value_type": "number_unit"
+                },
+                {
+                    "id": "PACKAGE_WIDTH",
+                    "name": "Ancho del paquete",
+                    "value_id": null,
+                    "value_name": "9.9 cm",
+                    "value_struct": {
+                        "number": 9.9,
+                        "unit": "cm"
+                    },
+                    "values": [
+                        {
+                            "id": null,
+                            "name": "9.9 cm",
+                            "struct": {
+                                "number": 9.9,
+                                "unit": "cm"
+                            }
+                        }
+                    ],
+                    "value_type": "number_unit"
+                },
+                {
+                    "id": "GTIN",
+                    "name": "Código universal de producto",
+                    "value_id": null,
+                    "value_name": "8809971221788",
+                    "value_struct": null,
+                    "values": [
+                        {
+                            "id": null,
+                            "name": "8809971221788",
+                            "struct": null
+                        }
+                    ],
+                    "value_type": "string"
+                },
+                {
+                    "id": "PACKAGE_LENGTH",
+                    "name": "Largo del paquete",
+                    "value_id": null,
+                    "value_name": "20.5 cm",
+                    "value_struct": {
+                        "number": 20.5,
+                        "unit": "cm"
+                    },
+                    "values": [
+                        {
+                            "id": null,
+                            "name": "20.5 cm",
+                            "struct": {
+                                "number": 20.5,
+                                "unit": "cm"
+                            }
+                        }
+                    ],
+                    "value_type": "number_unit"
+                },
+                {
+                    "id": "MPN",
+                    "name": "MPN",
+                    "value_id": "39100147",
+                    "value_name": "ACS07293",
+                    "value_struct": null,
+                    "values": [
+                        {
+                            "id": "39100147",
+                            "name": "ACS07293",
+                            "struct": null
+                        }
+                    ],
+                    "value_type": "string"
+                },
+                {
+                    "id": "PACKAGE_WEIGHT",
+                    "name": "Peso del paquete",
+                    "value_id": null,
+                    "value_name": "60 g",
+                    "value_struct": {
+                        "number": 60,
+                        "unit": "g"
+                    },
+                    "values": [
+                        {
+                            "id": null,
+                            "name": "60 g",
+                            "struct": {
+                                "number": 60,
+                                "unit": "g"
+                            }
+                        }
+                    ],
+                    "value_type": "number_unit"
+                },
+                {
+                    "id": "SELLER_SKU",
+                    "name": "SKU",
+                    "value_id": null,
+                    "value_name": "ACS07293",
+                    "value_struct": null,
+                    "values": [
+                        {
+                            "id": null,
+                            "name": "ACS07293",
+                            "struct": null
+                        }
+                    ],
+                    "value_type": "string"
+                }
+            ]
+        }
+    ]
+}

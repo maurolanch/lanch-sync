@@ -1,105 +1,78 @@
-# Importaciones estándar
 import json
 import os
 import threading
 import time
-import logging  
+import logging
 from datetime import datetime
 
-# Importaciones de terceros
-from flask import Flask, jsonify
+from flask import Flask, jsonify, make_response
 import requests
 from google.cloud import secretmanager
 from barcode import EAN13
 from barcode.errors import IllegalCharacterError
 
+# Configuración de logging (más concisa)
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# Configuración de logging
-logging.basicConfig(level=logging.INFO)
-
-# Instanciar la aplicación Flask
 app = Flask(__name__)
 
-# Variable para controlar si el hilo ya ha sido iniciado
-token_thread_started = False
-
-# Variable global para el token
+# Variables globales (simplificadas)
 current_token = None
+token_thread = None  # Para controlar el hilo del token
 
-# Establecer la ruta a tus credenciales de Google Cloud
+# Configuración de Secret Manager
+PROJECT_ID = "lanch-sync"  # Constante para el ID del proyecto
+SECRET_ID = "API_SECRET_KEY"  # Constante para el ID del secreto
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "config/lanch-sync-e5d12969c196.json"
 
-# Configuración del proyecto y secreto
-project_id = "lanch-sync"
-secret_id = "API_SECRET_KEY"
+API_URL = "https://grupologi.com.co/ApiLogi/principal_graph.php"  # URL de la API (constante)
 
+# --- Funciones ---
 
-
-# Función para obtener el secreto desde Google Secret Manager
-def get_secret(project_id, secret_id, version_id="latest"):
+def get_secret(project_id, secret_id):
+    """Obtiene el secreto desde Google Secret Manager."""
+    client = secretmanager.SecretManagerServiceClient()
+    secret_path = f"projects/{project_id}/secrets/{secret_id}/versions/latest"
     try:
-        # Crear cliente de Secret Manager
-        client = secretmanager.SecretManagerServiceClient()
-
-        # Construir la ruta del recurso del secreto
-        secret_path = f"projects/{project_id}/secrets/{secret_id}/versions/{version_id}"
-
-        # Acceder al secreto
         response = client.access_secret_version(name=secret_path)
-        secret_value = response.payload.data.decode("UTF-8")
-        return secret_value
+        return response.payload.data.decode("UTF-8").strip()  # Decodifica y elimina espacios en blanco
     except Exception as e:
-        print(f"Error al obtener el secreto: {e}")
+        logging.error(f"Error al obtener el secreto: {e}")
         return None
 
-
-# Función para obtener el token usando el secreto
-def get_token(project_id, secret_id):
-    global current_token  # Declarar que estamos utilizando la variable global
-    # Obtener el secreto desde Google Secret Manager
-    secret_key = get_secret(project_id, secret_id)
-    secret_key = secret_key.strip()
-
+def get_token():
+    """Obtiene y actualiza el token."""
+    global current_token
+    secret_key = get_secret(PROJECT_ID, SECRET_ID)
     if not secret_key:
-        print("Error: No se pudo obtener el secreto. No se puede continuar.")
-        return
+        logging.error("No se pudo obtener el secreto.")
+        return None
 
-    # Construir el query para obtener el token
+    query = {"query": f'{{app_secret_key(secret_client:"{secret_key}"){{suc_data{{token}}}}}}'}
+    headers = {'Content-Type': 'application/json'}
 
-    query = {"query": '{app_secret_key(secret_client:"' + secret_key + '"){suc_data{token}}}'}
-   
-    url = "https://grupologi.com.co/ApiLogi/principal_graph.php"
-    body = query
-    #body = query
-    headers = {
-    'Content-Type': 'application/json'
-    }
-
-    # Realizar la solicitud HTTP
     try:
-        response = requests.post(url, json=body, headers=headers)
-        response.raise_for_status()
-        if response.status_code == 200:
-            data = response.json()
+        response = requests.post(API_URL, json=query, headers=headers)
+        response.raise_for_status()  # Lanza excepción para errores HTTP
+        data = response.json()
 
-            # Extraer token si está presente
-            if "data" in data and "app_secret_key" in data["data"]:
-                current_token = data["data"]["app_secret_key"][0]["suc_data"][0]["token"]
-                print(f"Token renovado: {current_token}")
-                return current_token
-            else:
-                print("Error: La respuesta no contiene datos esperados.")
+        token_data = data.get("data", {}).get("app_secret_key", [])
+        if token_data:
+            current_token = token_data[0].get("suc_data", [])[0].get("token")
+            logging.info("Token renovado.")
+            return current_token
         else:
-            print(f"Error {response.status_code}: {response.text}")
+            logging.error("Respuesta de token inesperada.")
+            return None
+
     except requests.exceptions.RequestException as e:
-        print(f"Error al realizar la solicitud: {e}")
+        logging.error(f"Error al obtener el token: {e}")
+        return None
 
-#Descargar el inventario de productos
-
-def obtener_inventario(token):
-    # Definir la consulta (query)
+def obtener_inventario():
+    """Obtiene el inventario desde la API."""
     query = {
-        "query": '''
+        "query": """
         {
           stock {
             producto {
@@ -114,200 +87,122 @@ def obtener_inventario(token):
             }
           }
         }
-        '''
+        """
     }
+    headers = {'Content-Type': 'application/json', 'Authorization': current_token}
 
-    # Definir la URL del endpoint
-    url = "https://grupologi.com.co/ApiLogi/principal_graph.php"
-
-    # Configurar los headers con el token de autorización
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': token  # El token sin bearer
-    }
-
-    # Realizar la solicitud POST
     try:
-        # Realizar la solicitud
-        response = requests.post(url, data=json.dumps(query), headers=headers)
-        response.raise_for_status()  # Verifica si hay algún error HTTP
+        response = requests.post(API_URL, data=json.dumps(query), headers=headers)
+        response.raise_for_status()
+        data = response.json()
 
-        # Verificar si la respuesta fue exitosa (código 200)
-        if response.status_code == 200:
-            # Verificar si el tipo de contenido es JSON
-            if 'application/json' in response.headers.get('Content-Type', ''):
-                try:
-                    # Intentar cargar el JSON
-                    data = response.json()
-
-                    # Validar la estructura completa del JSON
-                    if not isinstance(data, dict):
-                        print("Error: La respuesta no tiene una estructura de objeto JSON válida.")
-                        return None
-                    
-                    # Verificar si existe la clave 'data' y que esta sea un diccionario
-                    if 'data' not in data or not isinstance(data['data'], dict):
-                        print("Error: La clave 'data' está ausente o tiene un tipo incorrecto.")
-                        return None
-
-                    # Verificar si 'stock' está dentro de 'data' y es una lista
-                    if 'stock' not in data['data'] or not isinstance(data['data']['stock'], list):
-                        print("Error: La clave 'stock' está ausente o tiene un tipo incorrecto.")
-                        return None
-
-                    stock_data = data['data']['stock']
-
-                    # Validar que stock no esté vacío
-                    if not stock_data:
-                        print("Advertencia: La lista de productos está vacía.")
-                        return None
-
-                    # Validar cada producto dentro de 'stock'
-                    for item in stock_data:
-                        if 'producto' not in item or not isinstance(item['producto'], list):
-                            print(f"Error: El campo 'producto' está ausente o tiene un tipo incorrecto en el item {item}.")
-                            return None
-
-                        if 'total_stock' not in item or not isinstance(item['total_stock'], list):
-                            print(f"Error: El campo 'total_stock' está ausente o tiene un tipo incorrecto en el item {item}.")
-                            return None
-
-                        # Validar campos dentro de 'producto'
-                        producto = item['producto'][0] if item['producto'] else None
-                        if producto:
-                            required_fields = ['pro_cod', 'pro_sku', 'pro_desc', 'pro_ubicacion', 'pro_fech_registro']
-                            for field in required_fields:
-                                if field not in producto:
-                                    print(f"Error: El campo '{field}' está ausente en un producto.")
-                                    return None
-                                    
-                            # Validar formato de la fecha
-                            try:
-                                datetime.strptime(producto['pro_fech_registro'], '%Y-%m-%d %H:%M:%S')
-                            except ValueError:
-                                print(f"Error: El campo 'pro_fech_registro' tiene un formato inválido en el producto {producto['pro_cod']}.")
-                                return None
-                        else:
-                            print(f"Error: Producto malformado en el item {item}.")
-                            return None
-
-                        # Validar que 'total_stock' tenga un valor válido
-                        total_stock = item['total_stock'][0]['total_stock'] if item['total_stock'] else None
-                        if total_stock is None or not isinstance(total_stock, int) or total_stock < 0:
-                            print(f"Error: El campo 'total_stock' tiene un valor inválido o negativo para el producto {producto['pro_cod']}.")
-                            return None
-
-                    # Si todo es correcto, retornar los datos
-                    return data
-
-                except json.JSONDecodeError as e:
-                    print(f"Error al procesar el JSON: {e}")
-                    return None
-            else:
-                print(f"Error: El tipo de contenido de la respuesta no es JSON. {response.headers.get('Content-Type')}")
-                return None
-        else:
-            print(f"Error {response.status_code}: {response.text}")
+        # Validación simplificada (se asume estructura consistente)
+        stock_data = data.get("data", {}).get("stock", [])
+        if not stock_data:
+            logging.warning("No se encontraron datos de inventario.")
             return None
 
+        return data  # Devuelve los datos sin procesar, el procesamiento se hace en otro lugar
+
     except requests.exceptions.RequestException as e:
-        # Manejo de errores en caso de problemas con la conexión
-        print(f"Error al realizar la solicitud: {e}")
+        logging.error(f"Error al obtener el inventario: {e}")
         return None
 
-# Validar un código de barras EAN-13 o UPC
 def validar_codigo_barras(codigo):
-    """
-    Valida si un código de barras es un EAN-13 válido.
-    """
+    """Valida si un código de barras es EAN-13 o UPC."""
     try:
-        # Validar longitud del código y caracteres válidos
         if len(codigo) == 13:
-            EAN13(codigo)  # Esto asegura que sea un EAN-13 válido
+            EAN13(codigo)
             return True
         elif len(codigo) == 12:
-            # UPC se puede extender a EAN-13 con un prefijo "0"
-            EAN13("0" + codigo)
+            EAN13("0" + codigo)  # Intenta extender UPC a EAN-13
             return True
-        else:
-            return False
+        return False
     except IllegalCharacterError:
-        return False  # Contiene caracteres inválidos
+        return False
     except ValueError:
-        return False  # Fallo en la validación del checksum
-
+        return False
 
 def decode_and_format(data):
-    try:
-        stock_data = data.get("data", {}).get("stock", [])
-        productos_formateados = []
+    """Decodifica y formatea los datos del inventario."""
 
-        for stock_item in stock_data:
-            productos = stock_item.get("producto", [])
-            total_stock = stock_item.get("total_stock", [])
+    if not data or not isinstance(data, dict) or not data.get("data") or not data["data"].get("stock"):
+        logging.error("Datos de inventario inválidos.")
+        return None
 
-            for producto in productos:
+    productos_formateados = []
+    for stock_item in data["data"]["stock"]:
+        for producto in stock_item.get("producto", []):
+            try:  # Bloque try para cada producto
                 pro_cod = producto.get("pro_cod", "").strip()
                 pro_sku = producto.get("pro_sku", "").strip()
                 pro_desc = producto.get("pro_desc", "").strip()
                 pro_ubicacion = producto.get("pro_ubicacion", "").strip()
                 pro_fech_registro = producto.get("pro_fech_registro", "").strip()
 
-                # Validar el código de barras con la conversión a entero
-                try:
-                    # Intentar convertir pro_cod a un entero
-                    pro_cod_int = int(pro_cod)
-                    codigo_valido = validar_codigo_barras(pro_cod)  # Validar si es un EAN-13 válido
-                except ValueError:
-                    # Si no se puede convertir a entero, marcar como inválido
-                    pro_cod_int = None
-                    codigo_valido = False
+                pro_cod_int = int(pro_cod) if pro_cod.isdigit() else None  # Intenta convertir a int
+                codigo_valido = validar_codigo_barras(pro_cod) if pro_cod_int is not None else False
 
-                # Asegurar que pro_fech_registro sea una fecha válida
                 try:
                     pro_fech_registro_timestamp = datetime.strptime(pro_fech_registro, "%Y-%m-%d %H:%M:%S").timestamp()
                 except ValueError:
-                    print(f"Error al convertir 'pro_fech_registro' a timestamp: {pro_fech_registro}")
-                    pro_fech_registro_timestamp = None  # Si no puede convertir la fecha, asignar None
+                    logging.warning(f"Fecha inválida: {pro_fech_registro}")
+                    pro_fech_registro_timestamp = None
 
-                # Obtener el total_stock de manera segura y convertirlo a entero
                 total_stock_value = 0
-                if total_stock and isinstance(total_stock[0], dict) and "total_stock" in total_stock[0]:
-                    total_stock_value = int(total_stock[0].get("total_stock", 0))
+                total_stock_list = stock_item.get("total_stock", [])
 
-                # Crear un diccionario con los datos procesados
-                producto_formateado = {
+                if total_stock_list and isinstance(total_stock_list[0], dict):
+                    total_stock_value = int(total_stock_list[0].get("total_stock", 0))
+
+                productos_formateados.append({
                     "pro_cod": pro_cod,
-                    "pro_cod_int": pro_cod_int,  # El valor entero del código de barras
-                    "pro_cod_valido": codigo_valido,  # True o False según sea válido
+                    "pro_cod_int": pro_cod_int,
+                    "pro_cod_valido": codigo_valido,
                     "pro_sku": pro_sku,
                     "pro_desc": pro_desc,
                     "pro_ubicacion": pro_ubicacion,
                     "pro_fech_registro": pro_fech_registro_timestamp,
                     "total_stock": total_stock_value
-                }
-                productos_formateados.append(producto_formateado)
+                })
 
-        return productos_formateados
+            except (ValueError, TypeError) as e:  # Captura errores de conversión o tipo de dato
+                logging.error(f"Error al procesar producto: {producto}. Error: {e}")
 
-    except Exception as e:
-        print(f"Error al procesar el inventario: {e}")
-        return None
+    return productos_formateados
 
 def renew_token_periodically():
+    """Renueva el token periódicamente."""
     while True:
-        try:
-            logging.info("Renovando token...")
-            get_token(project_id, secret_id)  # Llama a la función para renovar el token
-            logging.info("Token renovado exitosamente.")
-        except Exception as e:
-            logging.error(f"Error al renovar el token: {e}")
-        time.sleep(43200)  # Espera 12 horas (43200 segundos)
+        get_token()
+        time.sleep(43200)  # 12 horas
+
+# --- Rutas de Flask ---
+@app.route('/stock')
+def mostrar_stock():
+    """Muestra el stock en formato JSON."""
+    try:
+        data = obtener_inventario()
+        if not data:
+            return "Error al obtener el inventario."
+
+        productos_formateados = decode_and_format(data)
+        if not productos_formateados:
+            return "Error al procesar los datos del inventario."
+
+        # Convertir a JSON y devolver la respuesta
+        response = make_response(json.dumps(productos_formateados, indent=4, ensure_ascii=False))
+        response.headers['Content-Type'] = 'application/json; charset=utf-8' # Encabezado para JSON
+        return response
+
+    except Exception as e:
+        logging.error(f"Error en la ruta /stock: {e}")
+        return f"Error: {e}"
 
 if __name__ == '__main__':
-    # Inicia el hilo para renovar el token solo si aún no ha sido iniciado
-    if not token_thread_started:
-        threading.Thread(target=renew_token_periodically, daemon=True).start()
-        token_thread_started = True
+    # Inicia el hilo del token (una sola vez)
+    if not token_thread:
+        token_thread = threading.Thread(target=renew_token_periodically, daemon=True)
+        token_thread.start()
 
-    app.run(debug=False)  # En producción, podrías poner debug=False
+    app.run(debug=False) # debug=False en producción

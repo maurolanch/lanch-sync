@@ -1,0 +1,806 @@
+{
+    "id": "MCO1455048913",
+    "site_id": "MCO",
+    "title": "Estuche Spigen Zero One Samsung Galaxy S24 Ultra - Negro",
+    "family_name": null,
+    "seller_id": 287078901,
+    "category_id": "MCO169817",
+    "user_product_id": null,
+    "official_store_id": 1281,
+    "price": 249900,
+    "base_price": 249900,
+    "original_price": null,
+    "inventory_id": null,
+    "currency_id": "COP",
+    "initial_quantity": 3,
+    "available_quantity": 3,
+    "sold_quantity": 0,
+    "sale_terms": [
+        {
+            "id": "WARRANTY_TYPE",
+            "name": "Tipo de garantía",
+            "value_id": "2230280",
+            "value_name": "Garantía del vendedor",
+            "value_struct": null,
+            "values": [
+                {
+                    "id": "2230280",
+                    "name": "Garantía del vendedor",
+                    "struct": null
+                }
+            ],
+            "value_type": "list"
+        },
+        {
+            "id": "WARRANTY_TIME",
+            "name": "Tiempo de garantía",
+            "value_id": null,
+            "value_name": "3 meses",
+            "value_struct": {
+                "number": 3,
+                "unit": "meses"
+            },
+            "values": [
+                {
+                    "id": null,
+                    "name": "3 meses",
+                    "struct": {
+                        "number": 3,
+                        "unit": "meses"
+                    }
+                }
+            ],
+            "value_type": "number_unit"
+        }
+    ],
+    "buying_mode": "buy_it_now",
+    "listing_type_id": "gold_special",
+    "start_time": "2024-07-19T21:32:31.750Z",
+    "stop_time": "2044-07-14T04:00:00.000Z",
+    "end_time": "2044-07-14T04:00:00.000Z",
+    "expiration_time": "2025-08-19T16:13:16.551Z",
+    "condition": "new",
+    "permalink": "https://articulo.mercadolibre.com.co/MCO-1455048913-estuche-spigen-zero-one-samsung-galaxy-s24-ultra-negro-_JM",
+    "thumbnail_id": "663718-MCO77824144361_072024",
+    "thumbnail": "http://http2.mlstatic.com/D_663718-MCO77824144361_072024-I.jpg",
+    "pictures": [
+        {
+            "id": "663718-MCO77824144361_072024",
+            "url": "http://http2.mlstatic.com/D_663718-MCO77824144361_072024-O.jpg",
+            "secure_url": "https://http2.mlstatic.com/D_663718-MCO77824144361_072024-O.jpg",
+            "size": "490x500",
+            "max_size": "1178x1200",
+            "quality": ""
+        },
+        {
+            "id": "935296-MCO77605798336_072024",
+            "url": "http://http2.mlstatic.com/D_935296-MCO77605798336_072024-O.jpg",
+            "secure_url": "https://http2.mlstatic.com/D_935296-MCO77605798336_072024-O.jpg",
+            "size": "500x500",
+            "max_size": "1200x1200",
+            "quality": ""
+        },
+        {
+            "id": "904739-MCO77824548643_072024",
+            "url": "http://http2.mlstatic.com/D_904739-MCO77824548643_072024-O.jpg",
+            "secure_url": "https://http2.mlstatic.com/D_904739-MCO77824548643_072024-O.jpg",
+            "size": "500x500",
+            "max_size": "1200x1200",
+            "quality": ""
+        },
+        {
+            "id": "675400-MCO77824705941_072024",
+            "url": "http://http2.mlstatic.com/D_675400-MCO77824705941_072024-O.jpg",
+            "secure_url": "https://http2.mlstatic.com/D_675400-MCO77824705941_072024-O.jpg",
+            "size": "500x500",
+            "max_size": "1200x1200",
+            "quality": ""
+        },
+        {
+            "id": "997992-MCO77824735597_072024",
+            "url": "http://http2.mlstatic.com/D_997992-MCO77824735597_072024-O.jpg",
+            "secure_url": "https://http2.mlstatic.com/D_997992-MCO77824735597_072024-O.jpg",
+            "size": "500x500",
+            "max_size": "1200x1200",
+            "quality": ""
+        },
+        {
+            "id": "626674-MCO77824548657_072024",
+            "url": "http://http2.mlstatic.com/D_626674-MCO77824548657_072024-O.jpg",
+            "secure_url": "https://http2.mlstatic.com/D_626674-MCO77824548657_072024-O.jpg",
+            "size": "500x500",
+            "max_size": "1200x1200",
+            "quality": ""
+        },
+        {
+            "id": "733225-MCO77824243049_072024",
+            "url": "http://http2.mlstatic.com/D_733225-MCO77824243049_072024-O.jpg",
+            "secure_url": "https://http2.mlstatic.com/D_733225-MCO77824243049_072024-O.jpg",
+            "size": "500x500",
+            "max_size": "1200x1200",
+            "quality": ""
+        },
+        {
+            "id": "823057-MCO77605443968_072024",
+            "url": "http://http2.mlstatic.com/D_823057-MCO77605443968_072024-O.jpg",
+            "secure_url": "https://http2.mlstatic.com/D_823057-MCO77605443968_072024-O.jpg",
+            "size": "250x500",
+            "max_size": "602x1200",
+            "quality": ""
+        },
+        {
+            "id": "674608-MCO77824784933_072024",
+            "url": "http://http2.mlstatic.com/D_674608-MCO77824784933_072024-O.jpg",
+            "secure_url": "https://http2.mlstatic.com/D_674608-MCO77824784933_072024-O.jpg",
+            "size": "315x500",
+            "max_size": "756x1200",
+            "quality": ""
+        },
+        {
+            "id": "672740-MCO77605492794_072024",
+            "url": "http://http2.mlstatic.com/D_672740-MCO77605492794_072024-O.jpg",
+            "secure_url": "https://http2.mlstatic.com/D_672740-MCO77605492794_072024-O.jpg",
+            "size": "369x500",
+            "max_size": "887x1200",
+            "quality": ""
+        }
+    ],
+    "video_id": null,
+    "descriptions": [],
+    "accepts_mercadopago": true,
+    "non_mercado_pago_payment_methods": [],
+    "shipping": {
+        "mode": "me2",
+        "methods": [],
+        "tags": [
+            "self_service_in",
+            "mandatory_free_shipping"
+        ],
+        "dimensions": null,
+        "local_pick_up": false,
+        "free_shipping": true,
+        "logistic_type": "fulfillment",
+        "store_pick_up": false
+    },
+    "international_delivery_mode": "none",
+    "seller_address": {
+        "comment": "INTERIOR 201 Referencia: Int 201",
+        "address_line": "Carrera 31C #1C-33",
+        "zip_code": "111631",
+        "city": {
+            "id": "TUNPQ1BVRTg0NTU0",
+            "name": "Puente Aranda"
+        },
+        "state": {
+            "id": "CO-DC",
+            "name": "Bogotá D.C."
+        },
+        "country": {
+            "id": "CO",
+            "name": "Colombia"
+        },
+        "search_location": {
+            "city": {
+                "id": "TUNPQ1BVRTg0NTU0",
+                "name": "Puente Aranda"
+            },
+            "state": {
+                "id": "TUNPUEJPR1gxMDljZA",
+                "name": "Bogotá D.C."
+            }
+        },
+        "latitude": 4.601001,
+        "longitude": -74.105923,
+        "id": 1129020364
+    },
+    "seller_contact": null,
+    "location": {},
+    "geolocation": {
+        "latitude": 4.601001,
+        "longitude": -74.105923
+    },
+    "coverage_areas": [],
+    "attributes": [
+        {
+            "id": "BRAND",
+            "name": "Marca de la carcasa",
+            "value_id": "103546",
+            "value_name": "Spigen",
+            "values": [
+                {
+                    "id": "103546",
+                    "name": "Spigen",
+                    "struct": null
+                }
+            ],
+            "value_type": "string"
+        },
+        {
+            "id": "CELLPHONE_COVER_TYPE",
+            "name": "Tipo de forro",
+            "value_id": "312066",
+            "value_name": "Rugerizada",
+            "values": [
+                {
+                    "id": "312066",
+                    "name": "Rugerizada",
+                    "struct": null
+                }
+            ],
+            "value_type": "string"
+        },
+        {
+            "id": "COMPATIBLE_CELLPHONE",
+            "name": "Celular compatible",
+            "value_id": null,
+            "value_name": "Samsung S24 24 Ultra",
+            "values": [
+                {
+                    "id": null,
+                    "name": "Samsung S24 24 Ultra",
+                    "struct": null
+                }
+            ],
+            "value_type": "string"
+        },
+        {
+            "id": "COMPATIBLE_CELLPHONE_BRANDS",
+            "name": "Marcas de celulares compatibles",
+            "value_id": "206",
+            "value_name": "Samsung",
+            "values": [
+                {
+                    "id": "206",
+                    "name": "Samsung",
+                    "struct": null
+                }
+            ],
+            "value_type": "string"
+        },
+        {
+            "id": "COMPATIBLE_CELLPHONE_LINES",
+            "name": "Líneas de celulares compatibles",
+            "value_id": "249991",
+            "value_name": "Galaxy S",
+            "values": [
+                {
+                    "id": "249991",
+                    "name": "Galaxy S",
+                    "struct": null
+                }
+            ],
+            "value_type": "string"
+        },
+        {
+            "id": "COMPATIBLE_CELLPHONE_MODELS",
+            "name": "Modelos de celulares compatibles",
+            "value_id": "28482233",
+            "value_name": "S24 Ultra",
+            "values": [
+                {
+                    "id": "28482233",
+                    "name": "S24 Ultra",
+                    "struct": null
+                }
+            ],
+            "value_type": "string"
+        },
+        {
+            "id": "EXTERIOR_MATERIALS",
+            "name": "Materiales del exterior",
+            "value_id": null,
+            "value_name": "Policarbonato,TPU",
+            "values": [
+                {
+                    "id": "108732",
+                    "name": "Policarbonato",
+                    "struct": null
+                },
+                {
+                    "id": "82254",
+                    "name": "TPU",
+                    "struct": null
+                }
+            ],
+            "value_type": "string"
+        },
+        {
+            "id": "INTERIOR_MATERIALS",
+            "name": "Materiales del interior",
+            "value_id": "18308329",
+            "value_name": "TPU",
+            "values": [
+                {
+                    "id": "18308329",
+                    "name": "TPU",
+                    "struct": null
+                }
+            ],
+            "value_type": "string"
+        },
+        {
+            "id": "IS_ANTI_SLIP",
+            "name": "Es antideslizante",
+            "value_id": "242084",
+            "value_name": "No",
+            "values": [
+                {
+                    "id": "242084",
+                    "name": "No",
+                    "struct": null
+                }
+            ],
+            "value_type": "boolean"
+        },
+        {
+            "id": "IS_WATERPROOF",
+            "name": "Es a prueba de agua",
+            "value_id": "242084",
+            "value_name": "No",
+            "values": [
+                {
+                    "id": "242084",
+                    "name": "No",
+                    "struct": null
+                }
+            ],
+            "value_type": "boolean"
+        },
+        {
+            "id": "ITEM_CONDITION",
+            "name": "Condición del ítem",
+            "value_id": "2230284",
+            "value_name": "Nuevo",
+            "values": [
+                {
+                    "id": "2230284",
+                    "name": "Nuevo",
+                    "struct": null
+                }
+            ],
+            "value_type": "list"
+        },
+        {
+            "id": "LINE",
+            "name": "Línea del forro",
+            "value_id": "17568812",
+            "value_name": "MAGFIT",
+            "values": [
+                {
+                    "id": "17568812",
+                    "name": "MAGFIT",
+                    "struct": null
+                }
+            ],
+            "value_type": "string"
+        },
+        {
+            "id": "MANUFACTURER",
+            "name": "Fabricante",
+            "value_id": "103546",
+            "value_name": "Spigen",
+            "values": [
+                {
+                    "id": "103546",
+                    "name": "Spigen",
+                    "struct": null
+                }
+            ],
+            "value_type": "string"
+        },
+        {
+            "id": "MODEL",
+            "name": "Modelo del forro",
+            "value_id": null,
+            "value_name": "Ultra Hybrid Zero One",
+            "values": [
+                {
+                    "id": null,
+                    "name": "Ultra Hybrid Zero One",
+                    "struct": null
+                }
+            ],
+            "value_type": "string"
+        },
+        {
+            "id": "PRODUCT_FEATURES",
+            "name": "Características del producto",
+            "value_id": "8847339",
+            "value_name": "Sin vencimiento",
+            "values": [
+                {
+                    "id": "8847339",
+                    "name": "Sin vencimiento",
+                    "struct": null
+                }
+            ],
+            "value_type": "list"
+        },
+        {
+            "id": "SALE_FORMAT",
+            "name": "Formato de venta",
+            "value_id": "1359391",
+            "value_name": "Unidad",
+            "values": [
+                {
+                    "id": "1359391",
+                    "name": "Unidad",
+                    "struct": null
+                }
+            ],
+            "value_type": "list"
+        },
+        {
+            "id": "SHIPMENT_PACKING",
+            "name": "Embalaje del envío",
+            "value_id": "7435891",
+            "value_name": "Bolsa",
+            "values": [
+                {
+                    "id": "7435891",
+                    "name": "Bolsa",
+                    "struct": null
+                }
+            ],
+            "value_type": "list"
+        },
+        {
+            "id": "UNITS_PER_PACK",
+            "name": "Unidades por pack",
+            "value_id": "2726554",
+            "value_name": "1",
+            "values": [
+                {
+                    "id": "2726554",
+                    "name": "1",
+                    "struct": null
+                }
+            ],
+            "value_type": "number"
+        },
+        {
+            "id": "WITH_CAMERA_PROTECTOR",
+            "name": "Con protector de cámara",
+            "value_id": "242085",
+            "value_name": "Sí",
+            "values": [
+                {
+                    "id": "242085",
+                    "name": "Sí",
+                    "struct": null
+                }
+            ],
+            "value_type": "boolean"
+        },
+        {
+            "id": "WITH_CARDS_HOLDER",
+            "name": "Con porta tarjetas",
+            "value_id": "242084",
+            "value_name": "No",
+            "values": [
+                {
+                    "id": "242084",
+                    "name": "No",
+                    "struct": null
+                }
+            ],
+            "value_type": "boolean"
+        },
+        {
+            "id": "WITH_INTEGRAL_GLASS_LID",
+            "name": "Con tapa de vidrio integral",
+            "value_id": "242084",
+            "value_name": "No",
+            "values": [
+                {
+                    "id": "242084",
+                    "name": "No",
+                    "struct": null
+                }
+            ],
+            "value_type": "boolean"
+        },
+        {
+            "id": "WITH_LID",
+            "name": "Con tapa",
+            "value_id": "242084",
+            "value_name": "No",
+            "values": [
+                {
+                    "id": "242084",
+                    "name": "No",
+                    "struct": null
+                }
+            ],
+            "value_type": "boolean"
+        },
+        {
+            "id": "WITH_LIGHT",
+            "name": "Con luz",
+            "value_id": "242084",
+            "value_name": "No",
+            "values": [
+                {
+                    "id": "242084",
+                    "name": "No",
+                    "struct": null
+                }
+            ],
+            "value_type": "boolean"
+        },
+        {
+            "id": "WITH_MAGNETIC_CLOSE",
+            "name": "Con cierre magnético",
+            "value_id": "242084",
+            "value_name": "No",
+            "values": [
+                {
+                    "id": "242084",
+                    "name": "No",
+                    "struct": null
+                }
+            ],
+            "value_type": "boolean"
+        },
+        {
+            "id": "WITH_RING",
+            "name": "Con anillo",
+            "value_id": "242084",
+            "value_name": "No",
+            "values": [
+                {
+                    "id": "242084",
+                    "name": "No",
+                    "struct": null
+                }
+            ],
+            "value_type": "boolean"
+        },
+        {
+            "id": "WITH_STRAP",
+            "name": "Con correa",
+            "value_id": "242084",
+            "value_name": "No",
+            "values": [
+                {
+                    "id": "242084",
+                    "name": "No",
+                    "struct": null
+                }
+            ],
+            "value_type": "boolean"
+        },
+        {
+            "id": "WITH_WIRELESS_CHARGING",
+            "name": "Con carga inalámbrica",
+            "value_id": "242084",
+            "value_name": "No",
+            "values": [
+                {
+                    "id": "242084",
+                    "name": "No",
+                    "struct": null
+                }
+            ],
+            "value_type": "boolean"
+        }
+    ],
+    "warnings": [],
+    "listing_source": "",
+    "variations": [
+        {
+            "id": 183784453539,
+            "price": 249900,
+            "attribute_combinations": [
+                {
+                    "id": "COLOR",
+                    "name": "Color",
+                    "value_id": "52049",
+                    "value_name": "Negro",
+                    "values": [
+                        {
+                            "id": "52049",
+                            "name": "Negro",
+                            "struct": null
+                        }
+                    ],
+                    "value_type": "string"
+                },
+                {
+                    "id": "PATTERN_NAME",
+                    "name": "Nombre del diseño",
+                    "value_id": "32097123",
+                    "value_name": "S24 Ultra",
+                    "values": [
+                        {
+                            "id": "32097123",
+                            "name": "S24 Ultra",
+                            "struct": null
+                        }
+                    ],
+                    "value_type": "string"
+                }
+            ],
+            "available_quantity": 3,
+            "sold_quantity": 0,
+            "sale_terms": [],
+            "picture_ids": [
+                "663718-MCO77824144361_072024",
+                "935296-MCO77605798336_072024",
+                "904739-MCO77824548643_072024",
+                "675400-MCO77824705941_072024",
+                "997992-MCO77824735597_072024",
+                "626674-MCO77824548657_072024",
+                "733225-MCO77824243049_072024",
+                "823057-MCO77605443968_072024",
+                "674608-MCO77824784933_072024",
+                "672740-MCO77605492794_072024"
+            ],
+            "seller_custom_field": null,
+            "catalog_product_id": "MCO37642209",
+            "attributes": [
+                {
+                    "id": "PACKAGE_HEIGHT",
+                    "name": "Altura del paquete",
+                    "value_id": null,
+                    "value_name": "1.8 cm",
+                    "value_struct": {
+                        "number": 1.8,
+                        "unit": "cm"
+                    },
+                    "values": [
+                        {
+                            "id": null,
+                            "name": "1.8 cm",
+                            "struct": {
+                                "number": 1.8,
+                                "unit": "cm"
+                            }
+                        }
+                    ],
+                    "value_type": "number_unit"
+                },
+                {
+                    "id": "PACKAGE_WIDTH",
+                    "name": "Ancho del paquete",
+                    "value_id": null,
+                    "value_name": "9.9 cm",
+                    "value_struct": {
+                        "number": 9.9,
+                        "unit": "cm"
+                    },
+                    "values": [
+                        {
+                            "id": null,
+                            "name": "9.9 cm",
+                            "struct": {
+                                "number": 9.9,
+                                "unit": "cm"
+                            }
+                        }
+                    ],
+                    "value_type": "number_unit"
+                },
+                {
+                    "id": "GTIN",
+                    "name": "Código universal de producto",
+                    "value_id": null,
+                    "value_name": "8809971221788",
+                    "value_struct": null,
+                    "values": [
+                        {
+                            "id": null,
+                            "name": "8809971221788",
+                            "struct": null
+                        }
+                    ],
+                    "value_type": "string"
+                },
+                {
+                    "id": "PACKAGE_LENGTH",
+                    "name": "Largo del paquete",
+                    "value_id": null,
+                    "value_name": "20.5 cm",
+                    "value_struct": {
+                        "number": 20.5,
+                        "unit": "cm"
+                    },
+                    "values": [
+                        {
+                            "id": null,
+                            "name": "20.5 cm",
+                            "struct": {
+                                "number": 20.5,
+                                "unit": "cm"
+                            }
+                        }
+                    ],
+                    "value_type": "number_unit"
+                },
+                {
+                    "id": "MPN",
+                    "name": "MPN",
+                    "value_id": "39100147",
+                    "value_name": "ACS07293",
+                    "value_struct": null,
+                    "values": [
+                        {
+                            "id": "39100147",
+                            "name": "ACS07293",
+                            "struct": null
+                        }
+                    ],
+                    "value_type": "string"
+                },
+                {
+                    "id": "PACKAGE_WEIGHT",
+                    "name": "Peso del paquete",
+                    "value_id": null,
+                    "value_name": "60 g",
+                    "value_struct": {
+                        "number": 60,
+                        "unit": "g"
+                    },
+                    "values": [
+                        {
+                            "id": null,
+                            "name": "60 g",
+                            "struct": {
+                                "number": 60,
+                                "unit": "g"
+                            }
+                        }
+                    ],
+                    "value_type": "number_unit"
+                },
+                {
+                    "id": "SELLER_SKU",
+                    "name": "SKU",
+                    "value_id": null,
+                    "value_name": "ACS07293",
+                    "value_struct": null,
+                    "values": [
+                        {
+                            "id": null,
+                            "name": "ACS07293",
+                            "struct": null
+                        }
+                    ],
+                    "value_type": "string"
+                }
+            ],
+            "inventory_id": "VRME81717",
+            "item_relations": [
+                {
+                    "id": "MCO1454997071",
+                    "variation_id": null,
+                    "stock_relation": 1
+                }
+            ],
+            "user_product_id": "MCOU2524552171"
+        }
+    ],
+    "status": "active",
+    "sub_status": [],
+    "tags": [
+        "good_quality_thumbnail",
+        "immediate_payment",
+        "cart_eligible"
+    ],
+    "warranty": "Garantía del vendedor: 3 meses",
+    "catalog_product_id": "MCO37642209",
+    "domain_id": "MCO-CELLPHONE_CASES_AND_COVERS",
+    "seller_custom_field": null,
+    "parent_item_id": null,
+    "differential_pricing": null,
+    "deal_ids": [],
+    "automatic_relist": false,
+    "date_created": "2024-07-19T21:32:31.885Z",
+    "last_updated": "2025-01-31T16:13:16.560Z",
+    "health": 0.87,
+    "catalog_listing": false,
+    "item_relations": [],
+    "channels": [
+        "marketplace"
+    ]
+}

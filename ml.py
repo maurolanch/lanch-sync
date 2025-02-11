@@ -8,6 +8,12 @@ CLIENT_ID = '8885330221347884'
 CLIENT_SECRET = 'CN04G3UTi1s6y3RErVCkTbFRA3dLmVzs'
 REDIRECT_URI = 'https://ec2d-2800-484-515b-b000-e96a-dabe-2f13-cb12.ngrok-free.app/callback'
 
+
+CLIENT_ID2 = '8538706117577276' 
+CLIENT_SECRET2= 'S8c4YAmn2cq8gKykQZ6N41c6aastRFXw'
+REDIRECT_URI2= 'https://ec2d-2800-484-515b-b000-e96a-dabe-2f13-cb12.ngrok-free.app/callback2'
+
+
 AUTHORIZATION_URL = 'https://auth.mercadolibre.com.co/authorization'
 TOKEN_URL = 'https://api.mercadolibre.com/oauth/token'
 
